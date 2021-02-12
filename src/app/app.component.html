@@ -1,0 +1,25 @@
+<!-- <div style="margin: 5em;">
+  <button (click)="login()">Login</button>
+  <button (click)="logout()">Logout</button>
+</div> -->
+
+<h1>Welcome to {{ title }}!</h1>
+
+<div *ngIf="givenName">
+  <h2>Hi, {{givenName}}!</h2>
+  <button (click)="logout()">Logout</button>
+</div>
+
+<div *ngIf="!givenName">
+  <button (click)="login()">Login</button>
+</div>
+
+<div>
+  <button [routerLink]="['/secure']">Go to Secure Page</button>
+</div>
+
+<div>
+  <button (click)="getInfo()">Load User Info</button>
+</div>
+
+<router-outlet></router-outlet>
