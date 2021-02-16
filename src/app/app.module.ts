@@ -30,8 +30,8 @@ export function storageFactory(): OAuthStorage {
     OAuthModule.forRoot()
   ],
   providers: [
-    { provide: OAuthStorage, useFactory: storageFactory }
-    //{ provide: OAuthStorage, useFactory: storageFactory }, { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }
+    //{ provide: OAuthStorage, useFactory: storageFactory }
+    { provide: OAuthStorage, useFactory: storageFactory }, { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

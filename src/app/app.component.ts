@@ -6,23 +6,12 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-//export const userInfoEndpoint = 'https://dev-7559934.okta.com/oauth2/default/v1/userinfo';
-//export const userInfoEndpoint = 'https://aa-iam-node2.westeurope.cloudapp.azure.com/api/authentication/userinfo?tenant=myapp';
-
-
 export const authConfig2: AuthConfig = {
-
-  // Url of the Identity Provider
-  //issuer: 'https://dev-7559934.okta.com/oauth2/default',
-  //issuer: "https://dev-u1c-i8uh.eu.auth0.com/",
-  issuer: 'http://phenixid-test.francecentral.cloudapp.azure.com:443/myapp',
+  issuer: 'http://phenixid-test.francecentral.cloudapp.azure.com/dummy',
   strictDiscoveryDocumentValidation: false,
   redirectUri: window.location.origin,
-  //clientId: 'k6N0Zppt5EUD9ACAgBe8zKLSCzO12Zx8',
-  //clientId: '0oa3u6uiqhpejwwBh5d6',
   clientId: 'app1',
   dummyClientSecret: 'cisco123',
-  //dummyClientSecret: 'agDqQB_iHOFpN-Fkbdva-OEddul2z5lq62bXRgQn8-FqKos-TiOC0lhW4iyIRUqT',
   responseType: 'code',
   scope: 'openid',
   disablePKCE: true,
@@ -43,7 +32,7 @@ export class AppComponent {
     this.oauthService.configure(authConfig2);
     //this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.loadDiscoveryDocumentAndLogin().then(_ => {
-      console.log("");
+      console.log("logged In");
     }).catch(err => {
       console.log("Unable to login");
       console.log(err);
@@ -72,6 +61,7 @@ export class AppComponent {
   getInfo() {
     //const info = this.oauthService.loadUserProfile();
     const token = this.oauthService.getAccessToken();
+    console.log('token', token);
     const httpOptions = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -88,6 +78,26 @@ export class AppComponent {
 
   userInfo(httpOptions): Observable<any> {
     const uri = this.oauthService.userinfoEndpoint;
+    console.log('userInfoEndpoint', uri);
     return this.http.post<any>(uri, "", httpOptions);
   }
+
+  /* exchancheCodeForToken(code){
+    const tokenEndpt = this.oauthService.tokenEndpoint;
+    console.log("token endpoint",tokenEndpt);
+    const uri = 'http://phenixid-test.francecentral.cloudapp.azure.com/api/authentication/cb169470-1440-4429-aa40-d3dd78320dfc?tenant=dummy&grant_type=authorization_code&code=' + code + '&redirect_uri=http://localhost:4200&client_id=app1&client_secret=cisco123';
+    return this.http.post<any>(uri, "");
+  } */
+
+  /* logToken(code) {
+    this.exchancheCodeForToken(code).subscribe(
+      (data: any) => {
+        console.log(data.access_token);
+        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('id_token', data.id_token);
+      }, (error) => {
+        console.log(error);
+      }
+    )
+  } */
 }
