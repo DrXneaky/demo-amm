@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+        "target": "http://phenixid-test.francecentral.cloudapp.azure.com/",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}
